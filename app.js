@@ -11,7 +11,6 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/wikiDB", {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
 });
 
 const wikiSchema = new mongoose.Schema({
@@ -36,15 +35,18 @@ Wiki.insertMany(wikiList, function (err) {
     }
 });
 
-Wiki.bulkSave();
-
 app.get("/", function (req, res) {
     res.send(
-        Wiki.findOne({ title: "Welcome to the Wiki" }).then(function (result) {
-            res.render("home", {
-                //rendering the home page
-                homeStartingContent: result,
-            });
-        })
+        // Wiki.findOne({ title: "Welcome to the Wiki" }).then(function (result) {
+        //     // res.render("home", {
+        //     //     //rendering the home page
+        //     //     homeStartingContent: result,
+        //     // });
+        // })
+        "Hello World"
     );
+});
+
+app.listen(port, () => {
+    console.log("Server started on port 3000");
 });
