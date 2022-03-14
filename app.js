@@ -48,29 +48,28 @@ app.route("/articles")
                     res.render("home", { wikiList: foundWiki });
                 }
             }
-        }
-            .post("/articles", function (req, res) {
-                var title = req.body.title;
-                var content = req.body.content;
-                const temp = new Wiki({
-                    title: title,
-                    content: content,
-                });
-                temp.save();
-                res.send("I got the response as " + title + " " + content);
-    
+        });
+    })
+    .post("/articles", function (req, res) {
+        var title = req.body.title;
+        var content = req.body.content;
+        const temp = new Wiki({
+            title: title,
+            content: content,
+        });
+        temp.save();
+        res.send("I got the response as " + title + " " + content);
+    })
+    .delete("/articles", function (req, res) {
+        Wiki.deleteMany({}, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Wiki list deleted");
             }
-                .delete("/articles", function (req, res) {
-                    Wiki.deleteMany({}, function (err) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log("Wiki list deleted");
-                        }
-                    });
-                    res.redirect("/");
-                }
-     });
+        });
+        res.redirect("/");
+    });
 
 app.get("/", function (req, res) {
     
