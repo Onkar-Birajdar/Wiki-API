@@ -51,14 +51,44 @@ app.route("/articles")
         });
     })
     .post("/articles", function (req, res) {
+        const newWiki = new Wiki({
+            title: req.body.title,
+            content: req.body.content,
+        });
+        newWiki.save(function (err) {
+            if (!err) {
+                res.redirect("/articles");
+            }
+        });
+    })
+    .put("/articles", function (req, res) {
         var title = req.body.title;
         var content = req.body.content;
-        const temp = new Wiki({
-            title: title,
-            content: content,
-        });
-        temp.save();
-        res.send("I got the response as " + title + " " + content);
+        Wiki.updateMany(
+            { title: title },
+            { title: title, content: content },
+            { multi: true },
+            function (err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(result);
+                }
+            }
+        );
+    })
+    .patch("/articles", function (req, res) {
+        Wiki.updateOne(
+            { title: req.body.title },
+            { $set: { content: req.body.content } },
+            function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Updated");
+                }
+            }
+        );
     })
     .delete("/articles", function (req, res) {
         Wiki.deleteMany({}, function (err) {
