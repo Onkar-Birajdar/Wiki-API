@@ -29,6 +29,10 @@ const homeStartingContent = new Wiki({
 
 let wikiList = [homeStartingContent];
 
+
+
+
+
 app.route("/articles")
     .get((req, res) => {
         Wiki.find({}, function (err, foundWiki) {
